@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     Card,
-    CardAction,
     CardContent,
     CardFooter,
     CardHeader,
@@ -9,16 +8,11 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import Link from 'next/link'
-
-function LoginPage() {
+function SignUpPage() {
     return (
         <Card className="w-7xl max-w-sm">
             <CardHeader>
-                <CardTitle>Login to your account</CardTitle>
-                <CardAction>
-                    <Link href='/auth/signup'> <Button variant="link">Sign Up</Button> </Link>
-                </CardAction>
+                <CardTitle> Sign Up</CardTitle>
             </CardHeader>
             <CardContent>
                 <form>
@@ -34,19 +28,22 @@ function LoginPage() {
                         <div className="grid gap-2">
                             <Input id="password" type="password" placeholder='password' required />
                         </div>
+                        <div className="grid gap-2">
+                            <Input id="re-password" type="password" placeholder='re-enter password' required />
+                        </div>
                     </div>
                 </form>
             </CardContent>
             <CardFooter className="flex-col gap-2">
                 <Button type="submit" className="w-full cursor-pointer">
-                    Login
+                    Sign Up
                 </Button>
                 <Button variant="outline" className="w-full cursor-pointer">
-                    Login with Google
+                    Sign Up with Google
                 </Button>
             </CardFooter>
         </Card>
     )
 }
 
-export default LoginPage
+export default SignUpPage
