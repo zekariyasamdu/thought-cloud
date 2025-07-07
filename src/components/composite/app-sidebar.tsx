@@ -1,4 +1,4 @@
-import { Calendar, ChevronUp, Home, Inbox, Search, Settings, User2 } from "lucide-react"
+import { ChevronUp, Home, Inbox, Search, Settings, User2 } from "lucide-react"
 
 import {
     Sidebar,
@@ -12,34 +12,43 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
+import { title } from "process"
 
-// Menu items.
 const items = [
     {
         title: "Home",
-        url: "/",
+        url: "/dashboard/home",
         icon: Home,
     },
     {
         title: "Inbox",
-        url: "#",
+        url: "/dashboard/inbox",
         icon: Inbox,
     },
     {
-        title: "Calendar",
-        url: "#",
-        icon: Calendar,
-    },
-    {
         title: "Search",
-        url: "#",
+        url: "/dashboard/search",
         icon: Search,
     },
     {
         title: "Settings",
-        url: "#",
+        url: "/dashboard/settings",
         icon: Settings,
     },
+]
+
+const privateData = [
+    {
+        title: "sth",
+        url:   `/dashboard/${title}`
+    }
+]
+
+const sharedData = [
+    {
+        title: "sth",
+        url:   `/dashboard/${title}`
+    }
 ]
 
 export function AppSidebar() {
@@ -47,7 +56,6 @@ export function AppSidebar() {
         <Sidebar variant='floating' collapsible="icon">
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
@@ -63,8 +71,43 @@ export function AppSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
-            </SidebarContent>
 
+                <SidebarGroup>
+                    <SidebarGroupLabel>Shared</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {sharedData.map((item) => (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild>
+                                        <a href={item.url}>
+                                            <span>{item.title}</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Private</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {privateData.map((item) => (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild>
+                                        <a href={item.url}>
+                                            <span>{item.title}</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+
+            </SidebarContent>
 
             <SidebarFooter>
                 <SidebarMenu>
@@ -82,9 +125,6 @@ export function AppSidebar() {
                             >
                                 <DropdownMenuItem>
                                     <span>Account</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <span>Billing</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <span>Sign out</span>
