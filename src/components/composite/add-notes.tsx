@@ -31,7 +31,7 @@ export function AddNotesDialog() {
                     <DialogHeader>
                         <DialogTitle>Add Note</DialogTitle>
                         <DialogDescription>
-                            Click save when you&apos;re done.
+                            Click Add when you&apos;re done.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4">

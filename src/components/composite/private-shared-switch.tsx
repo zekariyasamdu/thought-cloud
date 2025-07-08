@@ -13,6 +13,7 @@ export function PrivateSharedSwitch({ isPrivate, setPrivate, isShare, setShare }
 
                 <Checkbox
                     checked={isPrivate}
+                    disabled={isShare}
                     onCheckedChange={() => setPrivate(!isPrivate)}
                 />
 
@@ -20,7 +21,7 @@ export function PrivateSharedSwitch({ isPrivate, setPrivate, isShare, setShare }
 
             <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                 <div className="flex flex-col text-sm">
-                    <p>shared</p>
+                    <p>Shared</p>
                     <p className="text-gray-600">You can add Friends</p>
                 </div>
                 <Checkbox

@@ -16,6 +16,7 @@ import {
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { title } from "process"
 import { AddNotesDialog } from "./add-notes"
+import Signout from "./signout"
 
 const items = [
     {
@@ -108,8 +109,6 @@ export function AppSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
-
-
             </SidebarContent>
 
             <SidebarFooter >
@@ -129,7 +128,7 @@ export function AppSidebar() {
                                     <span className="cursor-pointer">Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <span className="cursor-pointer">Sign out</span>
+                                    <Signout/>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
