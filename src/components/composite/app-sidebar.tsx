@@ -1,4 +1,6 @@
-import { ChevronUp, Home, Inbox, Search, Settings, User2 } from "lucide-react"
+import {
+    ChevronUp, Home, Inbox, Search, Settings, User2
+} from "lucide-react"
 
 import {
     Sidebar,
@@ -13,6 +15,7 @@ import {
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { title } from "process"
+import { AddNotesDialog } from "./add-notes"
 
 const items = [
     {
@@ -40,14 +43,14 @@ const items = [
 const privateData = [
     {
         title: "sth",
-        url:   `/dashboard/${title}`
+        url: `/dashboard/${title}`
     }
 ]
 
 const sharedData = [
     {
         title: "sth",
-        url:   `/dashboard/${title}`
+        url: `/dashboard/${title}`
     }
 ]
 
@@ -109,28 +112,30 @@ export function AppSidebar() {
 
             </SidebarContent>
 
-            <SidebarFooter>
-                <SidebarMenu>
+            <SidebarFooter >
+                <SidebarMenu className="just">
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton>
+                                <SidebarMenuButton className="cursor-pointer">
                                     <User2 /> Username
                                     <ChevronUp className="ml-auto" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                                 side="top"
-                                className="w-[--radix-popper-anchor-width]"
-                            >
+                                className="w-[--radix-popper-anchor-width]">
                                 <DropdownMenuItem>
-                                    <span>Account</span>
+                                    <span className="cursor-pointer">Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <span>Sign out</span>
+                                    <span className="cursor-pointer">Sign out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                            <AddNotesDialog />
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

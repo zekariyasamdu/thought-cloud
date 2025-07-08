@@ -17,8 +17,6 @@ export default function RootLayout({
 
 
   return (
-    <html lang="en">
-      <body>
         <SidebarProvider>
           <AppSidebar />
           <main>
@@ -26,7 +24,5 @@ export default function RootLayout({
             {children}
           </main>
         </SidebarProvider>
-      </body>
-    </html>
   );
 }
