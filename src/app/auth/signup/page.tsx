@@ -9,8 +9,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { auth, googleProvider } from '../../../../firebase'
+import { auth, googleProvider, noteCollections } from '../../../../firebase'
 import { useRouter } from 'next/navigation'
+import { addDoc } from 'firebase/firestore'
+import { getCurrentUserId } from '@/lib/utils'
 
 
 function SignUpPage() {
@@ -29,22 +31,25 @@ function SignUpPage() {
                     email,
                     password
                 );
+                await addDoc(noteCollections, {
+                    id: getCurrentUserId()
+                })
                 router.push('/auth/login')
             } catch (e) {
                 console.error(e);
             }
         }
     }
-    async function signInWithGoogle(){
+    async function signInWithGoogle() {
         try {
-                await signInWithPopup(
-                    auth,
-                    googleProvider
-                );
-                router.push('/auth/login')
-            } catch (e) {
-                console.error(e);
-            }
+            await signInWithPopup(
+                auth,
+                googleProvider
+            );
+            router.push('/auth/login')
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (
@@ -80,10 +85,15 @@ function SignUpPage() {
                             required />
                     </div>
                     <div className="flex-col gap-2">
-                        <Button type="submit" className="w-full cursor-pointer" >
+                        <Button
+                            type="submit"
+                            className="w-full cursor-pointer" >
                             Sign Up
                         </Button>
-                        <Button variant="outline" className="w-full cursor-pointer" onClick={signInWithGoogle}>
+                        <Button
+                            variant="outline"
+                            className="w-full cursor-pointer"
+                            onClick={signInWithGoogle}>
                             Sign Up with Google
                         </Button>
                     </div>

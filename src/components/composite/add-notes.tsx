@@ -16,18 +16,59 @@ import { SquarePen } from "lucide-react"
 import { SidebarMenuButton } from "../ui/sidebar"
 import { PrivateSharedSwitch } from "./private-shared-switch"
 import { useState } from "react"
+import { addDoc } from "firebase/firestore"
+import { getCurrentPrivateCollection, getCurrentSharedCollection  } from "@/lib/utils"
 
 export function AddNotesDialog() {
     const [isPrivate, setIsPrivate] = useState(true)
     const [isShared, setIsShared] = useState(false)
+    const [title, setTitle] = useState("Untitled")
+    async function addNotes() {
+        console.log("adding")
+        if (isPrivate) {
+            try {
+                const collection = getCurrentPrivateCollection?.();
+                if (!collection) {
+                    throw new Error("Private collection is not available.");
+                }
+                await addDoc(collection, {
+                    id: new Date().getMilliseconds().toString(),
+                    time: new Date().toDateString(),
+                    title,
+                    content: "",
+                    public: isShared
+                })
+            } catch (e) {
+                console.error(e);
+            }
+        } else {
+            try {
+                const collection = getCurrentSharedCollection?.();
+                if (!collection) {
+                    throw new Error("Shared collection is not available.");
+                }
+                await addDoc(collection, {
+                    id: new Date().getMilliseconds().toString(),
+                    time: new Date().toDateString(),
+                    title,
+                    content: "",
+                    public: isShared
+                })
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
 
     return (
         <Dialog>
-            <form>
+            
                 <DialogTrigger asChild>
-                    <SidebarMenuButton className="cursor-pointer"> <SquarePen /> Add Note</SidebarMenuButton>
+                    <SidebarMenuButton
+                        className="cursor-pointer"> <SquarePen /> Add Note</SidebarMenuButton>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent
+                    className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Add Note</DialogTitle>
                         <DialogDescription>
@@ -36,24 +77,35 @@ export function AddNotesDialog() {
                     </DialogHeader>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
-                            <Label htmlFor="name-1">Title</Label>
-                            <Input id="name-1" name="name" defaultValue="Untitled" />
+                            <Label
+                                htmlFor="name-1">Title</Label>
+                            <Input
+                                id="name-1"
+                                name="name"
+                                defaultValue="Untitled"
+                                required
+                                onChange={(e) => { setTitle(e.target.value) }} />
                         </div>
                     </div>
                     <div className="grid gap-4">
                         <div className="grid gap-3">
                             <Label>Scope</Label>
-                            <PrivateSharedSwitch isPrivate={isPrivate} setPrivate={setIsPrivate} isShare={isShared} setShare={setIsShared} />
+                            <PrivateSharedSwitch
+                                isPrivate={isPrivate}
+                                setPrivate={setIsPrivate}
+                                isShare={isShared}
+                                setShare={setIsShared} />
                         </div>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
+                            <Button
+                                variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button type="submit">Add</Button>
+                        <Button
+                            type="submit" onClick={() => addNotes()}>Add</Button>
                     </DialogFooter>
                 </DialogContent>
-            </form>
         </Dialog>
     )
 }
