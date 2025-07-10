@@ -1,3 +1,4 @@
+"use client"
 import {
     ChevronUp, Home, Inbox, Search, Settings, User2
 } from "lucide-react"
@@ -14,9 +15,11 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
-import { title } from "process"
 import { AddNotesDialog } from "./add-notes"
 import Signout from "./signout"
+import Link from "next/link"
+import useFetchPrivateData from "@/hooks/use-fetch-private-note"
+import useFetchSharedData from "@/hooks/use-fetch-shared-notes"
 
 const items = [
     {
@@ -41,21 +44,10 @@ const items = [
     },
 ]
 
-const privateData = [
-    {
-        title: "sth",
-        url: `/dashboard/${title}`
-    }
-]
-
-const sharedData = [
-    {
-        title: "sth",
-        url: `/dashboard/${title}`
-    }
-]
-
 export function AppSidebar() {
+    const [privateNotes] = useFetchPrivateData();
+    const [sharedNotes] = useFetchSharedData();
+
     return (
         <Sidebar variant='floating' collapsible="icon">
             <SidebarContent>
@@ -80,12 +72,12 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Shared</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {sharedData.map((item) => (
-                                <SidebarMenuItem key={item.title}>
+                            {sharedNotes?.map((item) => (
+                                <SidebarMenuItem key={item.id}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={`dashboard/${item.id}`}>
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -97,12 +89,12 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Private</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {privateData.map((item) => (
-                                <SidebarMenuItem key={item.title}>
+                            {privateNotes?.map((item) => (
+                                <SidebarMenuItem key={item.id}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={`dashboard/${item.id}`}>
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -128,13 +120,13 @@ export function AppSidebar() {
                                     <span className="cursor-pointer">Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Signout/>
+                                    <Signout />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                            <AddNotesDialog />
+                        <AddNotesDialog />
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

@@ -17,17 +17,16 @@ import { SidebarMenuButton } from "../ui/sidebar"
 import { PrivateSharedSwitch } from "./private-shared-switch"
 import { useState } from "react"
 import { addDoc } from "firebase/firestore"
-import { getCurrentPrivateCollection, getCurrentSharedCollection  } from "@/lib/utils"
+import { getCurrentPrivateCollection, getCurrentSharedCollection, getCurrentUserId  } from "@/lib/utils"
 
 export function AddNotesDialog() {
     const [isPrivate, setIsPrivate] = useState(true)
     const [isShared, setIsShared] = useState(false)
     const [title, setTitle] = useState("Untitled")
     async function addNotes() {
-        console.log("adding")
-        if (isPrivate) {
             try {
-                const collection = getCurrentPrivateCollection?.();
+                const collection = isPrivate?  getCurrentPrivateCollection?.() :  getCurrentSharedCollection?.();
+                console.log(getCurrentUserId() )
                 if (!collection) {
                     throw new Error("Private collection is not available.");
                 }
@@ -41,25 +40,8 @@ export function AddNotesDialog() {
             } catch (e) {
                 console.error(e);
             }
-        } else {
-            try {
-                const collection = getCurrentSharedCollection?.();
-                if (!collection) {
-                    throw new Error("Shared collection is not available.");
-                }
-                await addDoc(collection, {
-                    id: new Date().getMilliseconds().toString(),
-                    time: new Date().toDateString(),
-                    title,
-                    content: "",
-                    public: isShared
-                })
-            } catch (e) {
-                console.error(e);
-            }
-        }
-    }
-
+        } 
+    
     return (
         <Dialog>
             

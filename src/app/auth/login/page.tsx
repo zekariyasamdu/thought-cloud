@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../../../../firebase'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { getCurrentUserId } from '@/lib/utils'
 
 
 function LoginPage() {
@@ -39,6 +40,7 @@ function LoginPage() {
                 auth,
                 googleProvider
             );
+            console.log( getCurrentUserId())
             router.push('/dashboard')
         } catch (e) {
             console.error(e);

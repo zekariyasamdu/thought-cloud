@@ -2,7 +2,6 @@ import { Checkbox } from "../ui/checkbox"
 
 export function PrivateSharedSwitch({ isPrivate, setPrivate, isShare, setShare }: { isPrivate: boolean, isShare: boolean, setPrivate: React.Dispatch<React.SetStateAction<boolean>>, setShare: React.Dispatch<React.SetStateAction<boolean>> }) {
 
-    console.log(isPrivate, isShare)
     return (
         <div className="space-y-4">
             <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm" >
