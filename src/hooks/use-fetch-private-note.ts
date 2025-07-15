@@ -3,7 +3,7 @@ import { INote } from "@/types/notes";
 import { getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
-export default function useFetchPrivateData(){
+export default function useFetchPrivateData(setIsLoading: React.Dispatch<React.SetStateAction<boolean>>){
     const [privateNotes, setPrivateNotes] = useState<INote[]>();
     useEffect(() => {
         async function getNotes() {
@@ -16,12 +16,14 @@ export default function useFetchPrivateData(){
                     ...doc.data()
                 })) as INote[]
                 setPrivateNotes(privateData)
+                setIsLoading(false)
             }
             catch(e){
                 console.error(e)
+                setIsLoading(false)
             }
         }
         getNotes();
-    }, [setPrivateNotes])
+    }, [setPrivateNotes, setIsLoading])
     return [privateNotes];
 }

@@ -17,9 +17,8 @@ import {
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { AddNotesDialog } from "./add-notes"
 import Signout from "./signout"
-import Link from "next/link"
-import useFetchPrivateData from "@/hooks/use-fetch-private-note"
-import useFetchSharedData from "@/hooks/use-fetch-shared-notes"
+import PrivateNoteMenu from "./private-note-menu"
+import SharedNoteMenu from "./shared-note-menu"
 
 const items = [
     {
@@ -45,8 +44,6 @@ const items = [
 ]
 
 export function AppSidebar() {
-    const [privateNotes] = useFetchPrivateData();
-    const [sharedNotes] = useFetchSharedData();
 
     return (
         <Sidebar variant='floating' collapsible="icon">
@@ -72,15 +69,7 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Shared</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {sharedNotes?.map((item) => (
-                                <SidebarMenuItem key={item.id}>
-                                    <SidebarMenuButton asChild>
-                                        <Link href={`dashboard/${item.id}`}>
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            <SharedNoteMenu/>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
@@ -89,15 +78,7 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Private</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {privateNotes?.map((item) => (
-                                <SidebarMenuItem key={item.id}>
-                                    <SidebarMenuButton asChild>
-                                        <Link href={`dashboard/${item.id}`}>
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            <PrivateNoteMenu/>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
