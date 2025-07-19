@@ -13,7 +13,6 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../../../../firebase'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { getCurrentUserId } from '@/lib/utils'
 
 
 function LoginPage() {
@@ -36,11 +35,16 @@ function LoginPage() {
     }
     async function loginWithGoogle() {
         try {
-            await signInWithPopup(
+            const result = await signInWithPopup(
                 auth,
                 googleProvider
             );
-            console.log( getCurrentUserId())
+            const id = await result.user.getIdToken(); 
+
+            await fetch('/api/login', {
+                method: 'POST',
+                body: JSON.stringify({idToken: id})
+            })
             router.push('/dashboard')
         } catch (e) {
             console.error(e);
