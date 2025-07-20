@@ -35,16 +35,10 @@ function LoginPage() {
     }
     async function loginWithGoogle() {
         try {
-            const result = await signInWithPopup(
+            await signInWithPopup(
                 auth,
                 googleProvider
             );
-            const id = await result.user.getIdToken(); 
-
-            await fetch('/api/login', {
-                method: 'POST',
-                body: JSON.stringify({idToken: id})
-            })
             router.push('/dashboard')
         } catch (e) {
             console.error(e);

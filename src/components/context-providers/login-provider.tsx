@@ -5,10 +5,7 @@ interface ILogin {
     setLoggedin: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const Login = createContext<ILogin>({
-    loggedIn: false,
-    setLoggedin: () => { }
-})
+const Login = createContext<ILogin | undefined>(undefined)
 
 function LoginProvider({ children }: { children: React.ReactNode }) {
     const [loggedIn, setLoggedin] = useState(false)

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import LoginProvider from "@/components/context-providers/login";
+import { AuthProvider } from "@/components/context-providers/auth-provider";
 
 export const metadata: Metadata = {
   title: "Thought Cloud",
@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <LoginProvider>
+        <AuthProvider>
           {children}
-        </LoginProvider>
+        </AuthProvider>
       </body>
     </html>
   );

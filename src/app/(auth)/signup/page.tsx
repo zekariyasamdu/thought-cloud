@@ -12,7 +12,7 @@ import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider, noteCollections } from '../../../../firebase'
 import { useRouter } from 'next/navigation'
 import { addDoc } from 'firebase/firestore'
-import { getCurrentUserId } from '@/lib/utils'
+import { getCurrentUserId } from '@/lib/utils/firebase'
 
 
 function SignUpPage() {

@@ -1,4 +1,5 @@
-import { getCurrentUserIdAsync, getCurrentSharedCollection } from "@/lib/utils";
+import { getCurrentSharedCollection } from "@/lib/db";
+import { getCurrentUserIdAsync } from "@/lib/utils/firebase";
 import { INote } from "@/types/notes";
 import { getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
