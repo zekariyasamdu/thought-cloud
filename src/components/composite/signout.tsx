@@ -1,18 +1,11 @@
 "use client"
-import { signOut } from 'firebase/auth'
-import React from 'react'
-import { auth } from '../../../firebase'
-import { useRouter } from 'next/navigation'
+import React, { useContext } from 'react'
+import { authContext } from '../context-providers/auth-provider'
 
 function Signout() {
-    const route = useRouter()
+    const authInfo = useContext(authContext);
     async function clickHandler() {
-        try {
-            await signOut(auth)
-            route.push("/auth/login")
-        } catch (e) {
-            console.error(e)
-        }
+        await authInfo?.signout();
     }
     return (
         <span

@@ -1,4 +1,4 @@
-
+"use client"
 import { useFirebaseAuth } from "@/hooks/use-firebase-auth";
 import { createContext } from "react";
 
@@ -14,6 +14,7 @@ export interface AuthContextType {
     user: AppUser | null | false;
     loading: boolean;
     signinWithGoogle: (redirect?: string) => Promise<void>;
+    signInWithEmailPassword: (email: string,password: string, redirect?: string) => Promise<void>;
     signout: () => Promise<void>;
 }
 
@@ -21,6 +22,6 @@ export interface AuthContextType {
 export const authContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const auth = useFirebaseAuth();
-    return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+    const authInfo = useFirebaseAuth();
+    return <authContext.Provider value={authInfo}>{children}</authContext.Provider>;
 }

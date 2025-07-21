@@ -1,4 +1,8 @@
-import { AuthContextType, AppUser } from "@/components/context-providers/auth-provider";
+"use client";
+import {
+  AuthContextType,
+  AppUser,
+} from "@/components/context-providers/auth-provider";
 import { createUser } from "@/lib/db";
 import {
   GoogleAuthProvider,
@@ -6,15 +10,16 @@ import {
   signOut,
   onIdTokenChanged,
   User as FirebaseUser,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase";
+import { useRouter } from "next/navigation";
 
 export function useFirebaseAuth(): AuthContextType {
   const [user, setUser] = useState<AppUser | null | false>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleUser = async (
     rawUser: FirebaseUser | null | false
@@ -28,7 +33,7 @@ export function useFirebaseAuth(): AuthContextType {
       setLoading(false);
       return formattedUser;
     } else {
-      setUser(false); 
+      setUser(false);
       setLoading(false);
       return false;
     }
@@ -46,14 +51,30 @@ export function useFirebaseAuth(): AuthContextType {
       }
     } catch (error) {
       console.error("Error signing in with Google:", error);
-      setLoading(false); 
+      setLoading(false);
     }
   };
+
+  async function signInWithEmailPassword(
+    email: string,
+    password: string,
+    redirect?: string
+  ) {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      await handleUser(response.user);
+      if (redirect) {
+        router.push(redirect);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const signout = async () => {
     try {
       await signOut(auth);
-      await handleUser(false); 
+      await handleUser(false);
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -61,13 +82,14 @@ export function useFirebaseAuth(): AuthContextType {
 
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, handleUser);
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
 
   return {
     user,
     loading,
     signinWithGoogle,
+    signInWithEmailPassword,
     signout,
   };
 }

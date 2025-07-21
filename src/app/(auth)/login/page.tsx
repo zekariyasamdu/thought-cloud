@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, {useState } from 'react'
 import {
     Card,
     CardAction,
@@ -9,40 +9,22 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { auth, googleProvider } from '../../../../firebase'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/use-auth'
 
 
 function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const router = useRouter()
+    const authInfo = useAuth();
 
     async function handelSubmition(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        try {
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            router.push('/dashboard')
-        } catch (e) {
-            console.error(e);
-        }
+        await authInfo?.signInWithEmailPassword(email, password,'/dashboard' )
     }
+
     async function loginWithGoogle() {
-        try {
-            await signInWithPopup(
-                auth,
-                googleProvider
-            );
-            router.push('/dashboard')
-        } catch (e) {
-            console.error(e);
-        }
+        await authInfo?.signinWithGoogle('/dashboard')
     }
 
     return (

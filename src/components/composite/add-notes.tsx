@@ -17,7 +17,8 @@ import { SidebarMenuButton } from "../ui/sidebar"
 import { PrivateSharedSwitch } from "./private-shared-switch"
 import { useState } from "react"
 import { addDoc } from "firebase/firestore"
-import { getCurrentPrivateCollection, getCurrentSharedCollection, getCurrentUserId  } from "@/lib/utils"
+import { getCurrentPrivateCollection, getCurrentSharedCollection } from "@/lib/db"
+import { getCurrentUserId } from "@/lib/utils/firebase"
 
 export function AddNotesDialog() {
     const [isPrivate, setIsPrivate] = useState(true)
