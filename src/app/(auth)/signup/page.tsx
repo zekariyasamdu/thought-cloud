@@ -8,48 +8,23 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { auth, googleProvider, noteCollections } from '../../../../firebase'
-import { useRouter } from 'next/navigation'
-import { addDoc } from 'firebase/firestore'
-import { getCurrentUserId } from '@/lib/utils/firebase'
-
+import { useAuth } from '@/hooks/use-auth'
 
 function SignUpPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [reEnterPassword, setReEnterPassword] = useState("")
-    const router = useRouter()
+    const authInfo = useAuth();
 
     async function handelSubmition(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        console.log("here")
         if (password === reEnterPassword) {
-            try {
-                await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-                await addDoc(noteCollections, {
-                    id: getCurrentUserId()
-                })
-                router.push('/auth/login')
-            } catch (e) {
-                console.error(e);
-            }
+            await authInfo.createUserWithEmailPassword(email, password, 'login');
         }
     }
+    
     async function signInWithGoogle() {
-        try {
-            await signInWithPopup(
-                auth,
-                googleProvider
-            );
-            router.push('/auth/login')
-        } catch (e) {
-            console.error(e);
-        }
+        await authInfo?.signinWithGoogle('/dashboard')
     }
 
     return (
@@ -88,7 +63,7 @@ function SignUpPage() {
                         <Button
                             type="submit"
                             className="w-full cursor-pointer" >
-                            Sign Up
+                            Create Account
                         </Button>
                         <Button
                             variant="outline"

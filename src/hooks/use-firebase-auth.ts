@@ -15,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { useRouter } from "next/navigation";
+import { getCurrentUserId } from "@/lib/utils/firebase";
 
 export function useFirebaseAuth(): AuthContextType {
   const [user, setUser] = useState<AppUser | null | false>(null);
@@ -80,6 +81,33 @@ export function useFirebaseAuth(): AuthContextType {
     }
   };
 
+  const createUserWithEmailPassword = async (
+    email: string,
+    password: string,
+    redirect?: string
+  ) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      if (user) {
+        await addDoc(noteCollections, {
+          id: getCurrentUserId(),
+        });
+
+        if (redirect) {
+          router.push(redirect);
+        }
+        
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onIdTokenChanged(auth, handleUser);
     return () => unsubscribe();
@@ -89,6 +117,7 @@ export function useFirebaseAuth(): AuthContextType {
     user,
     loading,
     signinWithGoogle,
+    createUserWithEmailPassword,
     signInWithEmailPassword,
     signout,
   };

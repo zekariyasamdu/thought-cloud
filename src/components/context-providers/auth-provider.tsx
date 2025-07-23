@@ -15,6 +15,7 @@ export interface AuthContextType {
     loading: boolean;
     signinWithGoogle: (redirect?: string) => Promise<void>;
     signInWithEmailPassword: (email: string,password: string, redirect?: string) => Promise<void>;
+    createUserWithEmailPassword: (email: string,password: string, redirect?: string) => Promise<void>;
     signout: () => Promise<void>;
 }
 

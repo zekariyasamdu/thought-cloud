@@ -1,5 +1,3 @@
-// db.ts
-
 import { doc, setDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getCurrentUserId } from "./utils/firebase";

@@ -32,7 +32,7 @@ function LoginPage() {
             <CardHeader>
                 <CardTitle> Login</CardTitle>
                 <CardAction>
-                    <Link href={'/auth/signup'}> <Button variant="link">Sign Up</Button></Link>
+                    <Link href={'/signup'}> <Button variant="link">Create Account</Button></Link>
                 </CardAction>
             </CardHeader>
             <CardContent>
