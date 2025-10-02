@@ -11,11 +11,13 @@ import {
   onIdTokenChanged,
   User as FirebaseUser,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { auth } from "../../firebase";
+import { auth, noteCollections } from "../../firebase";
 import { useRouter } from "next/navigation";
 import { getCurrentUserId } from "@/lib/utils/firebase";
+import { addDoc } from "firebase/firestore";
 
 export function useFirebaseAuth(): AuthContextType {
   const [user, setUser] = useState<AppUser | null | false>(null);
@@ -101,7 +103,6 @@ export function useFirebaseAuth(): AuthContextType {
         if (redirect) {
           router.push(redirect);
         }
-        
       }
     } catch (e) {
       console.error(e);
